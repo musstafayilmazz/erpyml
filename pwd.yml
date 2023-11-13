@@ -109,31 +109,18 @@ services:
       - logs:/home/frappe/frappe-bench/logs
       
   nginx:
-    image: nginx:latest
-    deploy:
-      restart_policy:
-        condition: on-failure
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf:ro
-    ports:
-      - "80:80"
-    depends_on:
-      - frontend
-      - websocket
+      image: nginx:latest
+      deploy:
+        restart_policy:
+          condition: on-failure
+      volumes:
+        - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      ports:
+        - "80:80"
+      depends_on:
+        - frontend
+        - websocket
 
-  queue-long:
-    image: frappe/erpnext:v15.0.0
-    deploy:
-      restart_policy:
-        condition: on-failure
-    command:
-      - bench
-      - worker
-      - --queue
-      - long,default,short
-    volumes:
-      - sites:/home/frappe/frappe-bench/sites
-      - logs:/home/frappe/frappe-bench/logs
 
   queue-short:
     image: frappe/erpnext:v15.0.0
